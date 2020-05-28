@@ -13,20 +13,32 @@
 </head>
 <body>
 
+    <nav class="navbar navbar-light bg-light" id='nav1'>
+        <span class="navbar-brand mb-0 h1">Trello</span>
+    </nav>
+
+    <nav class="navbar navbar-light bg-light" id='nav2'>
+        <a class="navbar-brand board-name"></a>
+        <!-- <form class="form-inline">
+          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form> -->
+      </nav>
+
     <div class='container-sm'>
 
-            <!-- <div>
-              Trello
-            </div> -->
-
-        <div class="jumbotron">
-            <h1 class="display-4">Trello</h1>
+        <div class="input-group" style="width: 18rem;">
+            <input type="text" id='listNameEntry' class="form-control" placeholder="Enter list Title" aria-label="Recipient's username" aria-describedby="button-addon2">
+            <div class="input-group-append">
+            <button class="btn btn-outline-success" type="submit" id="button-addon">Add list</button>
+            </div>
         </div>
 
         <div>
 
-        <div class="row">
-            <div class="col-sm-6">
+    <div class="row">
+        <!-- <div class="col-sm-6 table">
+            <div class='droppable1 dropZone'>
                 <div class="card" style="width: 18rem;">
                     <div class="card-header">
                     Things to do
@@ -34,36 +46,41 @@
                     <ul  id ='firstList' class="list-group list-group-flush">
                     
                     </ul>
-                </div>
-                <div class="input-group" style="width: 18rem;">
+                </div> -->
+                <!-- <div class="input-group" style="width: 18rem;">
                     <input type="text" id='dataEntry' class="form-control" placeholder="Add a card" aria-label="Recipient's username" aria-describedby="button-addon2">
                     <div class="input-group-append">
                     <button class="btn btn-outline-success" type="submit" id="button-addon2">Add</button>
                     </div>
-                </div>
-            </div>
+                </div> -->
+            <!-- </div> -->
+        <!-- </div> -->
 
-            <div class="col-sm-6">
+        
+        <!-- <div class="col-sm-6 table">
+            <div class='droppable2 dropZone'>
                 <div class="card" style="width: 18rem;">
                     <div class="card-header">
                     Done
                     </div>
                     
                         <ul id ='secondList' class="list-group list-group-flush">
-                            <div id='droppable'></div>
+                            <div class='droppable dropZone'></div> -->
                             
-                        </ul>
+                        <!-- </ul>
 
                 </div>
             </div>
-        </div>
+        </div> -->
+    </div>
 
-        </div>
+</div>
         
         <!-- <div id="droppable" class="ui-widget-header"></div> -->
 
 
     </div>
+                    
     
 
     

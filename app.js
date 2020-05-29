@@ -1,17 +1,28 @@
+//load saved Trello-app into browser
+function loadTrelloApp(){
+    const columns = window.localStorage.getItem('Trello-app-column');
+    const items = window.localStorage.getItem('Trello-app-items');
+}
+
+
 $(() => {
 
   const cardData = [];
   const tableIndex = [];
   let tableIndexNum;
-  let buttonClass = 'button-addon2';
 
-
+ 
   function drawTableToDom(e) {
 
     // console.log('event',e);
     const ListName = $('#listNameEntry').val();
     tableIndex.push({ tableNmae: ListName })
     tableIndexNum = tableIndex.length - 1;
+
+    // below steps is for saving Trello-app info into the local storage (Trello-app-column)
+    const JSONstring = JSON.stringify(tableIndex);
+    window.localStorage.setItem('Trello-app-column', JSONstring);
+    
 
 
     const list = $(`<div class="col-sm-6 table droppable" data-column=${tableIndexNum}>
@@ -35,43 +46,14 @@ $(() => {
     `);
 
     $('.row').append(list)
-//make list entry empty
+    //make list entry empty
     $('input').val('');
-
-    // $('.droppable').droppable({
-    //   drop: (event, ui) => {
-    //     console.log(event);
-    //     console.log(ui);
-
-    //     //get the data of the dragged item
-    //     let dragItemContent = $(ui.draggable[0].dataset);
-
-    //     // Since HTMLElement.dataset returns a DOM string map, 
-    //     // the only way I found is to convert it into an native object by using below code
-    //     dragItemContent = JSON.parse(JSON.stringify(dragItemContent));
-
-    //     //get index number of dragged item
-    //     const indexNum = dragItemContent[0].index;
-    //     cardData[indexNum].status = 1;
-    //     // console.log(cardData);
-
-    //     //remove style from dragged item to ensure it sits in proper position and prepend it to the droppable list
-    //     // ui.draggable.removeAttr('style');
-    //     // $("#firstList").append(ui.draggable);
-    //     $(`#list${tableIndexNum}`).prepend(ui.draggable);
-
-
-    //   }
-    // });
-
 
   }
 
   $('#button-addon').on('click', drawTableToDom);
 
-
-
-
+  //Naming board
   // const boardName = prompt('Name your board','Add board Title');
   // $('.board-name').append(boardName);
 
@@ -81,11 +63,16 @@ $(() => {
 
     event.preventDefault();
     const dataEntry = $(`#dataEntry${e.target.dataset.column}`).val();
-    cardData.push({ title: dataEntry, status: e.target.dataset.column });
+    cardData.push({ title: dataEntry, status: parseInt(e.target.dataset.column)});
+
+    //store data into local storage (Trello-app-item)
+    const JSONstring = JSON.stringify(cardData);
+    window.localStorage.setItem('Trello-app-items', JSONstring);
+
     const dataIndexNum = cardData.length - 1;
     $('input').val('');
     // console.log(dataIndexNum);
-    // console.log(cardData);
+    console.log(cardData);
 
     const dataEntryList = $(`<div class='ui-widget-content draggable' data-index=${dataIndexNum}><li class="list-group-item">${dataEntry}</li></div>`);
     $(`#list${e.target.dataset.column}`).append(dataEntryList);
@@ -93,54 +80,28 @@ $(() => {
     $('.draggable').draggable();
     $('.draggable').draggable({ revert: true });
 
-    // $('.droppable').droppable({
-    //   drop: (event, ui) => {
-    //     console.log(event);
-    //     console.log(ui);
-
-    //     //get the data of the dragged item
-    //     let dragItemContent = $(ui.draggable[0].dataset);
-
-    //     // Since HTMLElement.dataset returns a DOM string map, 
-    //     // the only way I found is to convert it into an native object by using below code
-    //     dragItemContent = JSON.parse(JSON.stringify(dragItemContent));
-
-    //     //get index number of dragged item
-    //     const indexNum = dragItemContent[0].index;
-    //     cardData[indexNum].status = 1;
-    //     // console.log(cardData);
-
-    //     //remove style from dragged item to ensure it sits in proper position and prepend it to the droppable list
-    //     // ui.draggable.removeAttr('style');
-    //     // $("#firstList").append(ui.draggable);
-    //     $("#list1").prepend(ui.draggable);
-
-
-    //   }
-    // });
 
     $('.droppable').droppable({
       drop: (event, ui) => {
-        console.log(event);
-        console.log(ui);
+        // console.log(event);
+        // console.log(ui);
 
-        // const columnTarget = e.target.dataset.column;
-        console.log('column target', e.target.dataset.column);
+        // console.log('column target', event.target.dataset.column);
 
         //get the data of the dragged item
         let dragItemContent = $(ui.draggable[0].dataset);
 
         // Since HTMLElement.dataset returns a DOM string map, 
         // the only way I found is to convert it into an native object by using below code
-        dragItemContent = JSON.parse(JSON.stringify(dragItemContent));
+        // dragItemContent = JSON.parse(JSON.stringify(dragItemContent));
 
         //get index number of dragged item
         const indexNum = dragItemContent[0].index;
-        cardData[indexNum].status = 0;
-        // console.log(cardData);
+        cardData[indexNum].status = parseInt(event.target.dataset.column);
+        console.log(cardData);
 
-        //remove style from dragged item to ensure it sits in proper position and prepend it to the droppable list
-        $(`#list${e.target.dataset.column}`).prepend(ui.draggable);
+        //Prepend dragged item in to the droppable list
+        $(`#list${event.target.dataset.column}`).prepend(ui.draggable);
 
 
       }

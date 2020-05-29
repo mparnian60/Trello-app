@@ -1,12 +1,7 @@
-.jumbotron{
-    text-align: center;
-    padding: 1px;
-    background-color: #a7a6ea
-}
 
 .draggable{
     z-index: 10;
-    /* border: 3px solid red; */
+    background-color: #cdc1f5;
 
 }
 
@@ -19,17 +14,81 @@
 }
 
 .navbar {
-    background-color: #663de4 !important;
+    background-color: #6c59a9 !important;
+    border: 1px solid #8f77dc;
+    padding: 0;
+    height: 50px;
+    
+}
+
+.navbar-light .navbar-brand {
+    font-family:"Pacifico", cursive ;
+    font-size: 1.8rem;
+    color: white;
+    margin: 0 auto;
+    padding: 0;
+    
+}
+
+nav2.span{
+    float: right;
+}
+
+nav2.mainEntry{
+    float: left;
 }
 
 .table{
     margin: 20px;
 }
 
-#mainEntry{
-    margin: 20px;
+.btn-outline-success {
+    color: #f5f9f6;
+    border-color: #ebf3ed;
 }
 
-.body{
-    background-color: #a7a6ea;
+#mainEntry{
+    margin-left: 20px;
+}
+
+body{
+    background-color: #8f77dc;
+}
+
+.card-header {
+    padding: .5rem 1rem;
+    margin-bottom: 0;
+    background-color: rgba(0,0,0,.03);
+    border-bottom: 1px solid rgba(0,0,0,.125);
+    font-size: 20px;
+    font-weight: 500;
+    background-color: #d6cfec;
+}
+
+.input-group-text {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    margin-right: 20px;
+    font-size: 1rem;
+    font-weight: 400;
+    color: white;
+    text-align: center;
+    white-space: nowrap;
+    background-color: #8f77dc;
+    border: 1px solid #8f77dc;
+    border-radius: .25rem;
+    width: 150px;
+    height: 35px;
+}
+
+.ulOutside{
+    background-color:  #cdc1f5;
+}
+
+.card-header+.list-group .list-group-item:first-child {
+    border: 5px solid #cdc1f5;
+    padding: 0.5rem;
+    border-radius: 10px;
 }

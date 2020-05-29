@@ -4,7 +4,6 @@ function loadTrelloApp(){
     const items = window.localStorage.getItem('Trello-app-items');
 }
 
-
 $(() => {
 
   const cardData = [];
@@ -30,7 +29,7 @@ $(() => {
               <div class="card" style="width: 18rem;">
                   <div class="card-header">
                   ${ListName}
-                  </div>
+                  </div class='ulOutside'>
                   <ul  id ='list${tableIndexNum}' class="list-group list-group-flush">
                   
                   </ul>
@@ -45,6 +44,12 @@ $(() => {
       </div>
     `);
 
+    //doesnt make an empty list if the the list doesn't have a name
+    if(ListName === ''){
+      alert('Please enter list name before continue');
+      list.children().remove();
+    }
+
     $('.row').append(list)
     //make list entry empty
     $('input').val('');
@@ -54,8 +59,8 @@ $(() => {
   $('#button-addon').on('click', drawTableToDom);
 
   //Naming board
-  // const boardName = prompt('Name your board','Add board Title');
-  // $('.board-name').append(boardName);
+  const boardName = prompt('Add board Title');
+  $('.board-name').append(boardName);
 
   function moveItemToList(e) {
     // console.log(e);
@@ -109,6 +114,5 @@ $(() => {
   }
 
   $(document).on("click", '.addItem', moveItemToList);
-
 
 })

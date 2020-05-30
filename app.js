@@ -1,30 +1,60 @@
+let cardData = [];
+let tableIndex = [];
+let tableIndexNum;
+let columns;
+let items;
+let ListName;
+
+//Naming board
+const boardName = prompt('Add board Title');
+$('.board-name').append(boardName);
+
 //load saved Trello-app into browser
 function loadTrelloApp(){
-    const columns = window.localStorage.getItem('Trello-app-column');
-    const items = window.localStorage.getItem('Trello-app-items');
+  
+    columns = window.localStorage.getItem('Trello-app-column');
+    items = window.localStorage.getItem('Trello-app-items');
+
+    columns = JSON.parse(columns);
+    items = JSON.parse(items);
+
+    //if columns has something init or the array length is not zero
+    if(columns && columns.length){
+      loadTableNameToDom(columns);
+    }
+
+    console.log('columns',columns)
+    console.log('item',items);
+    
 }
 
-$(() => {
+function loadTableNameToDom(columns) {
 
-  const cardData = [];
-  const tableIndex = [];
-  let tableIndexNum;
+    columns.forEach((element,index) => {
+      const ListName = element.tableName;
+      console.log(ListName);
+  
+    createList(ListName,index);
 
- 
-  function drawTableToDom(e) {
+    const filterCardData = items.filter((element)=>{
+      if(element.status === index){
+        return true;
+      }
+    })
+    console.log('filterCardData',filterCardData);
 
-    // console.log('event',e);
-    const ListName = $('#listNameEntry').val();
-    tableIndex.push({ tableNmae: ListName })
-    tableIndexNum = tableIndex.length - 1;
+    filterCardData.forEach((element,itemIndex)=>{
+      const dataEntryList = $(`<div class='ui-widget-content draggable' data-index=${itemIndex}><li class="list-group-item">${element.title}</li></div>`);
+      $(`#list${index}`).append(dataEntryList);
+    })
 
-    // below steps is for saving Trello-app info into the local storage (Trello-app-column)
-    const JSONstring = JSON.stringify(tableIndex);
-    window.localStorage.setItem('Trello-app-column', JSONstring);
-    
+    });
+  
+}
 
-
-    const list = $(`<div class="col-sm-6 table droppable" data-column=${tableIndexNum}>
+function createList(ListName, tableIndexNum){
+  
+    const list = $(`<div class="col-sm-4 col-md-6 table droppable m-4" data-column=${tableIndexNum}>
           <div class='dropZone'>
               <div class="card" style="width: 18rem;">
                   <div class="card-header">
@@ -43,24 +73,39 @@ $(() => {
           </div>
       </div>
     `);
-
+  
     //doesnt make an empty list if the the list doesn't have a name
     if(ListName === ''){
       alert('Please enter list name before continue');
       list.children().remove();
     }
-
+  
     $('.row').append(list)
-    //make list entry empty
-    $('input').val('');
+    $('#listNameEntry').val('');
+  
+}
 
+$(() => {
+
+   loadTrelloApp();
+ 
+  function drawTableToDom() {
+
+    // console.log('event',e);
+    ListName = $('#listNameEntry').val();
+    tableIndex.push({ tableName: ListName })
+    tableIndexNum = tableIndex.length - 1;
+
+    // below steps is for saving Trello-app info into the local storage (Trello-app-column)
+    const JSONstring = JSON.stringify(tableIndex);
+    window.localStorage.setItem('Trello-app-column', JSONstring);
+    
+    createList(ListName,tableIndexNum);
   }
 
   $('#button-addon').on('click', drawTableToDom);
 
-  //Naming board
-  const boardName = prompt('Add board Title');
-  $('.board-name').append(boardName);
+  
 
   function moveItemToList(e) {
     // console.log(e);

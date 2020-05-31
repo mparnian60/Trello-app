@@ -113,9 +113,15 @@ function dragAndDrop(){
 
       //get index number of dragged item
       const indexNum = dragItemContent[0].index;
-      tableEntry[indexNum].status = parseInt(event.target.dataset.column);
+      
+      if(items){
+        items[indexNum].status = parseInt(event.target.dataset.column);
+      }else{
+        tableEntry[indexNum].status = parseInt(event.target.dataset.column);
+      }
+      
       console.log('parseint', parseInt(event.target.dataset.column));
-      console.log(tableEntry);
+      console.log('table entry',tableEntry);
 
       //Prepend dragged item in to the droppable list
       $(`#list${event.target.dataset.column}`).prepend(ui.draggable);
@@ -148,8 +154,8 @@ $(() => {
 
 
   function moveItemToList(e) {
-    console.log(e);
-    console.log(e.target.dataset.column);
+    // console.log(e);
+    // console.log(e.target.dataset.column);
 
     event.preventDefault();
     const dataEntry = $(`#dataEntry${e.target.dataset.column}`).val();
@@ -163,7 +169,7 @@ $(() => {
     const dataIndexNum = tableEntry.length - 1;
     $('input').val('');
     // console.log(dataIndexNum);
-    console.log(tableEntry);
+    console.log('table entry',tableEntry);
 
     const dataEntryList = $(`<div class='ui-widget-content draggable' data-index=${dataIndexNum}><li class="list-group-item">${dataEntry}</li></div>`);
     $(`#list${e.target.dataset.column}`).append(dataEntryList);

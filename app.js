@@ -1,4 +1,4 @@
-let tableEntry = [];
+// let tableEntry = [];
 let items = [];
 let tableIndex = [];
 let tableIndexNum;
@@ -12,11 +12,17 @@ $('.board-name').append(boardName);
 //load saved Trello-app into browser
 function loadTrelloApp() {
 
-  columns = window.localStorage.getItem('Trello-app-column');
-  items = window.localStorage.getItem('Trello-app-items');
+  let columnsStorage = window.localStorage.getItem('Trello-app-column');
+  let itemsStorage = window.localStorage.getItem('Trello-app-items');
 
-  columns = JSON.parse(columns);
-  items = JSON.parse(items);
+  if(columnsStorage){
+    columns = JSON.parse(columnsStorage);
+  }
+  if(itemsStorage){
+    items = JSON.parse(itemsStorage);
+  }
+  
+  
 
   //if columns has something init or the array length is not zero
   if (columns && columns.length) {
@@ -64,7 +70,7 @@ function createList(ListName, tableIndexNum) {
   const list = $(`<div class="col-sm table droppable" data-column=${tableIndexNum}>
           <div class='dropZone'>
               <div class="card">
-                  <div class="card-header" style="width: 18rem">
+                  <div class="card-header">
                   ${ListName}
                   </div class='ulOutside'>
                   <ul  id ='list${tableIndexNum}' class="list-group list-group-flush">
@@ -114,14 +120,14 @@ function dragAndDrop(){
       //get index number of dragged item
       const indexNum = dragItemContent[0].index;
       
-      if(items){
+      // if(items){
         items[indexNum].status = parseInt(event.target.dataset.column);
-      }else{
-        tableEntry[indexNum].status = parseInt(event.target.dataset.column);
-      }
+      // }else{
+      //   tableEntry[indexNum].status = parseInt(event.target.dataset.column);
+      // }
       
       console.log('parseint', parseInt(event.target.dataset.column));
-      console.log('table entry',tableEntry);
+      // console.log('table entry',tableEntry);
 
       //Prepend dragged item in to the droppable list
       $(`#list${event.target.dataset.column}`).prepend(ui.draggable);
@@ -159,17 +165,18 @@ $(() => {
 
     event.preventDefault();
     const dataEntry = $(`#dataEntry${e.target.dataset.column}`).val();
-    tableEntry.push({ title: dataEntry, status: parseInt(e.target.dataset.column) });
+    items.push({ title: dataEntry, status: parseInt(e.target.dataset.column) });
+    console.log('items',items);
     
 
     //store data into local storage (Trello-app-item)
-    const JSONstring = JSON.stringify(tableEntry);
+    const JSONstring = JSON.stringify(items);
     window.localStorage.setItem('Trello-app-items', JSONstring);
 
-    const dataIndexNum = tableEntry.length - 1;
+    const dataIndexNum = items.length - 1;
     $('input').val('');
     // console.log(dataIndexNum);
-    console.log('table entry',tableEntry);
+    console.log('table entry',items);
 
     const dataEntryList = $(`<div class='ui-widget-content draggable' data-index=${dataIndexNum}><li class="list-group-item">${dataEntry}</li></div>`);
     $(`#list${e.target.dataset.column}`).append(dataEntryList);
